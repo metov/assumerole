@@ -1,42 +1,29 @@
-## assumerole
+# assumerole
+`assumerole` is a utility for switching between multiple AWS profiles. Under the hood, it wraps [`aws sts assume-role`](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html).
 
-This python package was inspired by the GO implementation of [assume-role](https://github.com/remind101/assume-role).
-This utility makes it easier to switch between multiple AWS profiles.
+Similar projects:
+* [assume-role](https://github.com/remind101/assume-role)
 
+## Install
+1. Install AWS SDK
+2. Put AWS credentials in `~/.aws/credentials`
+3. Put AWS profiles in `~/.aws/config`
+4. ```pip install --index-url https://test.pypi.org/simple/  assumerole```
 
-### Pre-requisite
-- aws sdk should be installed
-- aws credentials are provided under ~/.aws/credentials
-- all the aws profiles are created correctly under ~/.aws/config
-
-This utility uses the command ```aws sts assume-role ```.
-You can learn more about this command under [awscli](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html)
-
-
-### Installation:
-```pip install --index-url https://test.pypi.org/simple/  assumerole```
-For updating existing package use
+## Update
 ```pip install -U --index-url https://test.pypi.org/simple/  assumerole```
 
+## Usage
+```
+assume --profile <aws-profile-name>
+```
+You will be prompted for your MFA code if needed.
 
-### Usage
-```assume --profile <aws-profile-name>```
-or
-```assume -p <aws-profile-name>```
+### Token caching
+Auth tokens are cached in `~/.aws/cached_tokens`. New tokens will not be requested from AWS if these have not expired. To force a new request, use `--refresh`.
 
-You may be prompted to pass your MFA code if its required
-
-By default, the tokens returned are cached under the folder ```~/.aws/cached_tokens```
-Only if the token has expired, will new tokens be requested from AWS.
-You can also find a history of all successful commands in the file ```~/.aws/assume_role_history```
-
-In case you do not want to use your cached tokens use the optional refresh parameter
-
-```assume --profile <aws-profile-name> --refresh``` or
-```assume -p <aws-profile-name> -r```
-
+A history of all successful commands is in `~/.aws/assume_role_history`.
 
 ### TODO:
 - Perform comprehensive coverage testing. Once package is tested fully, it will be made available in pypi.org
 - In the meantime, do test it out and feel free to submit PRs
-
