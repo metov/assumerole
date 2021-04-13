@@ -5,19 +5,16 @@ Similar projects:
 * [assume-role](https://github.com/remind101/assume-role)
 
 ## Install
-1. Install AWS SDK
-2. Put AWS credentials in `~/.aws/credentials`
-3. Put AWS profiles in `~/.aws/config`
-4. ```pip install --index-url https://test.pypi.org/simple/  assumerole```
+1. Install AWS CLI
+2. `pip install --index-url https://test.pypi.org/simple/  assumerole`
 
 ## Update
-```pip install -U --index-url https://test.pypi.org/simple/  assumerole```
+```
+pip install -U --index-url https://test.pypi.org/simple/  assumerole
+```
 
 ## Usage
-```
-assume --profile <aws-profile-name>
-```
-You will be prompted for your MFA code if needed.
+See `assume --help`.
 
 ### Token caching
 Auth tokens are cached in `~/.aws/cached_tokens`. New tokens will not be requested from AWS if these have not expired. To force a new request, use `--refresh`.

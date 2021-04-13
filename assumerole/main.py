@@ -1,19 +1,20 @@
-import argparse
-import assumerole.utility as util
+"""
+Switch between AWS profiles. You will be prompted for MFA code if needed.
 
+Assumptions:
+* Profiles are configured in ~/.aws/config
+* Credentials are in ~/.aws/credentials
 
-def app():
+Usage:
+    assume -h | --help
+    assume PROFILE [options]
 
-    # Initiate the parser
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--profile", help="aws profile name to assume")
-    parser.add_argument("-r", "--refresh", help="discard cache and get fresh token", action="store_true")
-
-    # Read arguments from the command line. Note args.refresh defaults to False when not specified
-    args = parser.parse_args()
-    os_env, command = util.assume_role_wrapper(args.profile, args.refresh)
-    print(command)
-
+Options:
+    --refresh  Request new auth token even if the current one is not expired.
+"""
+from assumerole.utility import assume_role_wrapper
+from docopt import docopt
 
 if __name__ == "__main__":
-    app()
+    args = docopt(__doc__)
+    assume_role_wrapper(args["PROFILE"], args["--refresh"])
