@@ -1,26 +1,16 @@
 # assumerole
-`assumerole` is a utility for switching between multiple AWS profiles. Under the hood, it wraps [`aws sts assume-role`](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html).
+`assumerole` is a utility for switching between multiple AWS profiles.
 
 Similar projects:
 * [assume-role](https://github.com/remind101/assume-role)
 
 ## Install
-1. Install AWS CLI
-2. `pip install --index-url https://test.pypi.org/simple/  assumerole`
+* Run `poetry install` inside repo directory
+* Ensure you have a valid [AWS CLI configuration][1].
 
-## Update
-```
-pip install -U --index-url https://test.pypi.org/simple/  assumerole
-```
+[1]: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 
 ## Usage
-See `assume --help`.
-
-### Token caching
-Auth tokens are cached in `~/.aws/cached_tokens`. New tokens will not be requested from AWS if these have not expired. To force a new request, use `--refresh`.
-
-A history of all successful commands is in `~/.aws/assume_role_history`.
-
-### TODO:
-- Perform comprehensive coverage testing. Once package is tested fully, it will be made available in pypi.org
-- In the meantime, do test it out and feel free to submit PRs
+* Print environment variables (doesn't actually set anything): `assume PROFILE`
+* Activate variables (until shell exits): `$(assume PROFILE)`
+* See detailed syntax: `assume --help`
