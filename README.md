@@ -1,8 +1,6 @@
 # assumerole
 `assumerole` is a utility for switching between multiple AWS profiles.
 
-This project is in [active development](TODO.md).
-
 Similar projects:
 * [assume-role](https://github.com/remind101/assume-role)
 
