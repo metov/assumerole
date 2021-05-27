@@ -7,9 +7,15 @@ the profiles you want to use. See:
 Usage:
     assume -h | --help
     assume PROFILE [options]
+
+Options:
+    --session=NAME  Use custom session name (defaults to use@host).
 """
 import json
 import logging
+import os
+import pwd
+import socket
 from datetime import datetime
 
 import boto3
@@ -31,13 +37,13 @@ def cli():
     args = docopt(__doc__)
 
     # Compose command and print
-    auth = assume_profile_role(args["PROFILE"])
+    auth = assume_profile_role(args["PROFILE"], args["--session"])
     envars = compose_envars(auth)
 
     print(envars)
 
 
-def assume_profile_role(role_profile):
+def assume_profile_role(role_profile, session_name=""):
     """Assume role described by role_profile and return the auth response."""
 
     # Get local profile config
@@ -47,7 +53,7 @@ def assume_profile_role(role_profile):
     assert "role_arn" in config, f"{role_profile} does not have role_arn."
     rq = {
         "RoleArn": config["role_arn"],
-        "RoleSessionName": "test",
+        "RoleSessionName": session_name or get_default_session_name(),
     }
 
     # Add MFA token if needed
@@ -77,6 +83,18 @@ def assume_profile_role(role_profile):
     log.info(f"The token will expire after {remaining} on {exp}")
 
     return response
+
+
+def get_default_session_name():
+    """The session name is mostly for logging[1]. By default, we use user@host,
+    unless the user requests something else.
+
+    [1] https://docs.aws.amazon.com/sdkref/latest/guide/setting-global-role_session_name.html
+    """
+
+    user = pwd.getpwuid(os.getuid()).pw_name
+    host, _, _ = socket.gethostname().partition(".")
+    return f"{user}@{host}"
 
 
 def compose_envars(auth_response):
