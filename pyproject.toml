@@ -20,6 +20,8 @@ docopt = "^0.6.2"
 boto3 = "^1.17.51"
 coloredlogs = "*"
 questionary = "1.*"
+pytz = "*"
+humanize = "3.*"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

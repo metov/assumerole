@@ -8,14 +8,17 @@ Usage:
     assume -h | --help
     assume PROFILE [options]
 """
+import json
 import logging
+from datetime import datetime
 
 import boto3
 import coloredlogs
+import humanize as humanize
+import pytz as pytz
 import questionary
 from botocore.session import Session
 from docopt import docopt
-
 
 # Set up logging TODO: This log config should only be active when using the CLI
 log = logging.getLogger(__name__)
@@ -60,7 +63,14 @@ def assume_profile_role(role_profile):
     sts = session.client("sts")
     response = sts.assume_role(**rq)
 
-    # TODO: Log expiration date
+    # Log auth token
+    resp_str = json.dumps(response, indent=4, default=lambda o: str(o))
+    log.debug(f"Auth token:\n{resp_str}")
+
+    # Log expiration date
+    exp = response["Credentials"]["Expiration"]
+    remaining = humanize.naturaldelta(exp - datetime.now(pytz.utc))
+    log.info(f"The token will expire after {remaining} on {exp}")
 
     return response
 
