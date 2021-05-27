@@ -20,7 +20,8 @@ import questionary
 from botocore.session import Session
 from docopt import docopt
 
-# Set up logging TODO: This log config should only be active when using the CLI
+# Set up logging
+# TODO: This log config should only be active when using the CLI
 log = logging.getLogger(__name__)
 fmt = "%(programname)s:%(lineno)d %(levelname)s %(message)s"
 coloredlogs.install(fmt=fmt, level="DEBUG", logger=log)
