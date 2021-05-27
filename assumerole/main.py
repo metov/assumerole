@@ -55,6 +55,9 @@ def assume_profile_role(role_profile):
         rq["SerialNumber"] = config["mfa_serial"]
         rq["TokenCode"] = questionary.text("Enter MFA code:").ask()
 
+    # Log request before making it
+    log.debug(f"Auth request:\n{json.dumps(rq, indent=4)}")
+
     # If source_profile is given, we should use it instead of the default profile
     source_profile = config.get("source_profile")
     log.info(f"Using source profile: {source_profile}")
@@ -66,7 +69,7 @@ def assume_profile_role(role_profile):
 
     # Log auth token
     resp_str = json.dumps(response, indent=4, default=lambda o: str(o))
-    log.debug(f"Auth token:\n{resp_str}")
+    log.debug(f"Auth response:\n{resp_str}")
 
     # Log expiration date
     exp = response["Credentials"]["Expiration"]
