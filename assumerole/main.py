@@ -17,13 +17,14 @@ from botocore.session import Session
 from docopt import docopt
 
 
+# Set up logging TODO: This log config should only be active when using the CLI
+log = logging.getLogger(__name__)
+fmt = "%(programname)s:%(lineno)d %(levelname)s %(message)s"
+coloredlogs.install(fmt=fmt, level="DEBUG", logger=log)
+
+
 def cli():
     args = docopt(__doc__)
-
-    # Set up logging
-    log = logging.getLogger(__name__)
-    fmt = "%(programname)s:%(lineno)d %(levelname)s %(message)s"
-    coloredlogs.install(fmt=fmt, level="DEBUG", logger=log)
 
     # Compose command and print
     auth = assume_profile_role(args["PROFILE"])
@@ -52,6 +53,7 @@ def assume_profile_role(role_profile):
 
     # If source_profile is given, we should use it instead of the default profile
     source_profile = config.get("source_profile")
+    log.info(f"Using source profile: {source_profile}")
 
     # Get auth token
     session = boto3.Session(profile_name=source_profile)
