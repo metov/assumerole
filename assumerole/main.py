@@ -50,8 +50,12 @@ def assume_role(aws_profile_name):
         rq["SerialNumber"] = config["mfa_serial"]
         rq["TokenCode"] = questionary.text("Enter MFA code:").ask()
 
+    # If source_profile is given, we should use it instead of the default profile
+    source_profile = config.get("source_profile")
+
     # Get auth token
-    sts = boto3.client("sts")
+    session = boto3.Session(profile_name=source_profile)
+    sts = session.client("sts")
     response = sts.assume_role(**rq)
 
     # TODO: Log expiration date
