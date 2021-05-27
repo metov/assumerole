@@ -26,20 +26,20 @@ def cli():
     coloredlogs.install(fmt=fmt, level="DEBUG", logger=log)
 
     # Compose command and print
-    auth = assume_role(args["PROFILE"])
+    auth = assume_profile_role(args["PROFILE"])
     envars = compose_envars(auth)
 
     print(envars)
 
 
-def assume_role(aws_profile_name):
-    """Assume role described by aws_profile_name and return the auth response."""
+def assume_profile_role(role_profile):
+    """Assume role described by role_profile and return the auth response."""
 
     # Get local profile config
-    config = Session(profile=aws_profile_name).get_scoped_config()
+    config = Session(profile=role_profile).get_scoped_config()
 
     # Construct assume role request
-    assert "role_arn" in config, f"{aws_profile_name} does not have role_arn."
+    assert "role_arn" in config, f"{role_profile} does not have role_arn."
     rq = {
         "RoleArn": config["role_arn"],
         "RoleSessionName": "test",
