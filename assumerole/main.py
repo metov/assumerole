@@ -14,6 +14,8 @@ Options:
         Specify session duration. Use "aws iam get-role" to check max duration
         confirmed for that session - if you ask for more than that, the request
         will be denied by AWS.
+    --debug
+        Enable debug log.
 """
 import json
 import logging
@@ -36,13 +38,16 @@ from docopt import docopt
 # TODO: This log config should only be active when using the CLI
 log = logging.getLogger(__name__)
 fmt = "%(programname)s:%(lineno)d %(levelname)s %(message)s"
-coloredlogs.install(fmt=fmt, level="DEBUG", logger=log)
+coloredlogs.install(fmt=fmt, level="INFO", logger=log)
 
 CACHE_FILE = Path("~").expanduser() / ".local/share/assumerole/cache.json"
 
 
 def cli():
     args = docopt(__doc__)
+
+    if args['--debug']:
+        coloredlogs.install(fmt=fmt, level="DEBUG", logger=log)
 
     # Compose command and print
     duration = int(args["--duration"] or 0)
