@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "assumerole"
-version = "0.5.0"
+version = "1.0.0"
 description = "Python  utility that allows users to perform aws assume-role operation between different profiles"
 authors = ["Kartik Ramasubramanian <r.kartik@berkeley.edu>"]
 license = "MIT"
