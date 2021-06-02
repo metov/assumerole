@@ -5,7 +5,7 @@ Similar projects:
 * [assume-role](https://github.com/remind101/assume-role)
 
 ## Install
-* Run `poetry install` inside repo directory
+* `pip install git+https://github.com/metov/assumerole.git`
 * Ensure you have a valid [AWS CLI configuration][1].
 
 [1]: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
