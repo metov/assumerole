@@ -1,3 +1,5 @@
+**NOTE:** This repository is no longer actively maintained. Consider using https://github.com/trek10inc/awsume instead.
+
 # assumerole
 `assumerole` is a utility for switching between multiple AWS profiles.
 
